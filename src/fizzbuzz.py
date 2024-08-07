@@ -37,7 +37,7 @@ def calc(val):
 
     """
     if is_value_a_fizz(val) and is_value_a_buzz(val):
-        return "FizzBuzzz"
+        return "FizzBuzz"
     elif is_value_a_fizz(val):
         return "Fizz"
     elif is_value_a_buzz(val):
