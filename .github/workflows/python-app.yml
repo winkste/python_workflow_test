@@ -9,9 +9,6 @@ on:
   pull_request:
     branches: [ "main", "dev001", "dev002" ]
 
-permissions:
-  contents: read
-
 jobs:
   build:
 
@@ -37,3 +34,12 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Create GitHub tag and release
+      uses: actions/create-release@v1
+      with:
+        tag_name: "v${{ github.sha }}"
+        release_name: "Release ${{ github.sha }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        RELEASE_NOTES: "Automatically generated release notes"
+      if: success()
