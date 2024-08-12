@@ -38,10 +38,10 @@ jobs:
       run: |
         VERSION=$(grep "version:" revision.txt | cut -d ":" -f 2- | tr -d " ")
         echo "VERSION=$VERSION" >> $GITHUB_ENV
-    - name: Extract release body from revision.txt
+    - name: Extract release description from revision.txt
       id: extract_body
       run: |
-        BODY=$(cat revision.txt)
+        BODY=$(grep "release_description:" revision.txt | cut -d ":" -f 2- | tr -d " ")
         echo "BODY=$BODY" >> $GITHUB_ENV
     - name: Generate release
       uses: actions/create-release@v1
