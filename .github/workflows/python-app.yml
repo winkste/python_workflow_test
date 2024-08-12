@@ -5,12 +5,7 @@ name: Python application
 
 on:
   push:
-    branches: [ "main", "dev001", "dev002", "dev003" ]
-  pull_request:
-    branches: [ "main", "dev001", "dev002", "dev003" ]
-
-permissions:
-  contents: read
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -37,3 +32,15 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Check if revision file was updated
+      if: github.event_name == 'push' && contains(github.event.commits[0].added, 'revision.txt')
+      run: |
+        echo "Revision file was updated, generating new release..."
+    - name: Generate release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ github.workspace }}/revision.txt
+        release_name: ${{ github.workspace }}/revision.txt
+        body: ${{ github.workspace }}/revision.txt
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
