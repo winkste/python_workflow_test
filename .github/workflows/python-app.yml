@@ -1,6 +1,3 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
 name: Python application
 
 on:
@@ -36,11 +33,21 @@ jobs:
       if: github.event_name == 'push' && contains(github.event.commits[0].added, 'revision.txt')
       run: |
         echo "Revision file was updated, generating new release..."
+    - name: Extract version number from revision.txt
+      id: extract_version
+      run: |
+        VERSION=$(grep "version:" revision.txt | cut -d ":" -f 2- | tr -d " ")
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+    - name: Extract release body from revision.txt
+      id: extract_body
+      run: |
+        BODY=$(cat revision.txt)
+        echo "BODY=$BODY" >> $GITHUB_ENV
     - name: Generate release
       uses: actions/create-release@v1
       with:
-        tag_name: ${{ github.workspace }}/revision.txt
-        release_name: ${{ github.workspace }}/revision.txt
-        body: ${{ github.workspace }}/revision.txt
+        tag_name: ${{ env.VERSION }}
+        release_name: ${{ env.VERSION }}
+        body: ${{ env.BODY }}
       env:
         GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
