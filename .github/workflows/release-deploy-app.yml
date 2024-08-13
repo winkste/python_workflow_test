@@ -2,7 +2,7 @@ name: Python application
 
 on:
   push:
-    branches: [ "main", "dev001", "dev002", "dev003"]
+    branches: [ "main"]
 
 jobs:
   build:
@@ -52,7 +52,7 @@ jobs:
       uses: actions/create-release@v1
       with:
         tag_name: ${{ env.VERSION }}
-        release_name: v${{ env.VERSION }} ${{ env.NAME }}
+        release_name: ${{ env.VERSION }} ${{ env.NAME }}
         body: ${{ env.BODY }}
       env:
         GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
