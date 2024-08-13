@@ -36,18 +36,23 @@ jobs:
     - name: Extract version number from revision.txt
       id: extract_version
       run: |
-        VERSION=$(grep "version:" revision.txt | cut -d ":" -f 2- | tr -d " ")
+        VERSION=$(grep "version:" ./revision.txt | cut -d ":" -f 2- | tr -d " ")
         echo "VERSION=$VERSION" >> $GITHUB_ENV
+    - name: Extract release name from revision.txt
+      id: extract_name
+      run: |
+        NAME=$(grep "release_name:" ./revision.txt | cut -d ":" -f 2- )
+        echo "NAME=$NAME" >> $GITHUB_ENV
     - name: Extract release description from revision.txt
       id: extract_body
       run: |
-        BODY=$(grep "release_description:" revision.txt | cut -d ":" -f 2- | tr -d " ")
+        BODY=$(grep "release_description:" ./revision.txt | cut -d ":" -f 2- )
         echo "BODY=$BODY" >> $GITHUB_ENV
     - name: Generate release
       uses: actions/create-release@v1
       with:
         tag_name: ${{ env.VERSION }}
-        release_name: ${{ env.VERSION }}
+        release_name: v${{ env.VERSION }} ${{ env.NAME }}
         body: ${{ env.BODY }}
       env:
         GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
