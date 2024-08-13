@@ -2,7 +2,7 @@ name: Python application
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev001", "dev002", "dev003"]
 
 jobs:
   build:
