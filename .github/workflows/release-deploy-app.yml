@@ -33,21 +33,15 @@ jobs:
       if: github.event_name == 'push' && contains(github.event.commits[0].added, 'revision.txt')
       run: |
         echo "Revision file was updated, generating new release..."
-    - name: Extract version number from revision.txt
-      id: extract_version
+    - name: Extract latest version, release name, and body
+      id: extract_release_vars
       run: |
-        VERSION=$(grep "version:" ./revision.txt | cut -d ":" -f 2- | tr -d " ")
-        echo "VERSION=$VERSION" >> $GITHUB_ENV
-    - name: Extract release name from revision.txt
-      id: extract_name
-      run: |
-        NAME=$(grep "release_name:" ./revision.txt | cut -d ":" -f 2- )
-        echo "NAME=$NAME" >> $GITHUB_ENV
-    - name: Extract release description from revision.txt
-      id: extract_body
-      run: |
-        BODY=$(grep "release_description:" ./revision.txt | cut -d ":" -f 2- )
-        echo "BODY=$BODY" >> $GITHUB_ENV
+        LATEST_VERSION=$(head -n 1 revision.txt | cut -d ":" -f 2- | tr -d " ")
+        RELEASE_NAME=$(head -n 2 revision.txt | tail -n 1 | cut -d ":" -f 2- | tr -d " ")
+        RELEASE_BODY=$(head -n 3 revision.txt | tail -n 1 | cut -d ":" -f 2- | tr -d " ")
+        echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+        echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
+        echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
     - name: Generate release
       uses: actions/create-release@v1
       with:
