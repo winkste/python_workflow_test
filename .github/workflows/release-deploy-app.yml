@@ -37,8 +37,8 @@ jobs:
       id: extract_release_vars
       run: |
         LATEST_VERSION=$(head -n 1 revision.txt | cut -d ":" -f 2- | tr -d " ")
-        RELEASE_NAME=$(head -n 2 revision.txt | tail -n 1 | cut -d ":" -f 2- | tr -d " ")
-        RELEASE_BODY=$(head -n 3 revision.txt | tail -n 1 | cut -d ":" -f 2- | tr -d " ")
+        RELEASE_NAME=$(head -n 2 revision.txt | tail -n 1 | cut -d ":" -f 2-)
+        RELEASE_BODY=$(head -n 3 revision.txt | tail -n 1 | cut -d ":" -f 2-)
         echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
         echo "RELEASE_NAME=$RELEASE_NAME" >> $GITHUB_ENV
         echo "RELEASE_BODY=$RELEASE_BODY" >> $GITHUB_ENV
