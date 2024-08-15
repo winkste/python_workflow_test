@@ -49,7 +49,7 @@ jobs:
         BODY=$(grep "release_description:" ./revision.txt | cut -d ":" -f 2- )
         echo "BODY=$BODY" >> $GITHUB_ENV
     - name: Generate release
-      uses: actions/create-release@v2
+      uses: actions/create-release
       with:
         tag_name: ${{ env.VERSION }}
         release_name: ${{ env.VERSION }} ${{ env.NAME }}
