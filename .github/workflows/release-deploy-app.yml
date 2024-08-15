@@ -45,8 +45,8 @@ jobs:
     - name: Generate release
       uses: actions/create-release@v1
       with:
-        tag_name: ${{ env.VERSION }}
-        release_name: ${{ env.VERSION }} ${{ env.NAME }}
-        body: ${{ env.BODY }}
+        tag_name: ${{ env.LATEST_VERSION }}
+        release_name: ${{ env.LATEST_VERSION }} ${{ env.RELEASE_NAME }}
+        body: ${{ env.RELEASE_BODY }}
       env:
         GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}

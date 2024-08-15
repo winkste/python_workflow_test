@@ -1,3 +1,7 @@
+version: v0.0.10
+release_name: Bug Fix in release step
+release_description: This release includes several new features and bug fixes, including support for Python 3.10 and improved performance.
+
 version: v0.0.9
 release_name: Allow the revisions file to be appending.
 release_description: This release includes several new features and bug fixes, including support for Python 3.10 and improved performance.
